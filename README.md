@@ -47,6 +47,7 @@ PDF Unlocker works entirely on your device.
 * PDFBox Android
 * Android Jetpack Compose
 * Material 3
+* Android DataStore
 
 ## License
 
