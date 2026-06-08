@@ -16,6 +16,9 @@ import com.tom_roush.pdfbox.pdmodel.PDDocument
 import java.io.File
 import java.io.IOException
 import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PdfUnlockRepository(
     private val context: Context
@@ -194,11 +197,11 @@ class PdfUnlockRepository(
 
     private fun unlockedFileName(sourceName: String, suffix: String): String {
         val cleanName = sourceName.substringAfterLast('/').ifBlank { "document.pdf" }
-        val cleanSuffix = suffix.ifBlank { "_unlocked" }
+        val timestamp = SimpleDateFormat("_unlocked_ddMMyy_HHmmss", Locale.getDefault()).format(Date())
         return if (cleanName.endsWith(".pdf", ignoreCase = true)) {
-            cleanName.dropLast(4) + cleanSuffix + ".pdf"
+            "${cleanName.dropLast(4)}$timestamp.pdf"
         } else {
-            cleanName + cleanSuffix + ".pdf"
+            "$cleanName$timestamp.pdf"
         }
     }
 

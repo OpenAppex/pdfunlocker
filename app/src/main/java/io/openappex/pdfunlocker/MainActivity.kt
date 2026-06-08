@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            _root_ide_package_.io.openappex.pdfunlocker.PDFUnlockerApp()
+            PDFUnlockerApp()
         }
     }
 }
@@ -42,9 +42,9 @@ class MainActivity : ComponentActivity() {
 private fun PDFUnlockerApp() {
     val context = LocalContext.current.applicationContext
     val settingsRepository = remember {
-        _root_ide_package_.io.openappex.pdfunlocker.data.settings.SettingsRepository(context = context)
+        SettingsRepository(context = context)
     }
-    val settings by settingsRepository.settingsFlow.collectAsState(initial = _root_ide_package_.io.openappex.pdfunlocker.data.settings.AppSettings())
+    val settings by settingsRepository.settingsFlow.collectAsState(initial = AppSettings())
     val systemDarkTheme = isSystemInDarkTheme()
     val darkTheme = when (settings.theme) {
         AppTheme.System -> systemDarkTheme
@@ -68,18 +68,8 @@ private fun PDFUnlockerApp() {
                 )
 
                 AppScreen.Settings -> SettingsRoute(
-                    onBack = { suffixWasBlank ->
+                    onBack = {
                         currentScreen = AppScreen.Unlock
-                        if (suffixWasBlank) {
-                            coroutineScope.launch {
-                                snackbarHostState.showSnackbar(
-                                    message = "Suffix is empty. Default _unlocked will be used.",
-                                    actionLabel = "Dismiss",
-                                    withDismissAction = true,
-                                    duration = SnackbarDuration.Long
-                                )
-                            }
-                        }
                     }
                 )
             }

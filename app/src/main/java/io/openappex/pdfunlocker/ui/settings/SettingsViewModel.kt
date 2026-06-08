@@ -19,24 +19,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = SettingsUiState()
+            initialValue = SettingsUiState(),
         )
-
-    fun onOutputFilenameSuffixChanged(suffix: String) {
-        viewModelScope.launch {
-            repository.updateOutputFilenameSuffix(suffix)
-        }
-    }
-
-    fun prepareToLeaveSettings(): Boolean {
-        val suffixWasBlank = uiState.value.settings.outputFilenameSuffix.isBlank()
-        if (suffixWasBlank) {
-            viewModelScope.launch {
-                repository.useDefaultOutputFilenameSuffix()
-            }
-        }
-        return suffixWasBlank
-    }
 
     fun onOutputFolderSelected(uri: String, label: String) {
         viewModelScope.launch {

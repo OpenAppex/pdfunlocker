@@ -18,9 +18,9 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,7 +28,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -40,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,7 +51,7 @@ import io.openappex.pdfunlocker.ui.theme.PDFUnlockerTheme
 
 @Composable
 fun SettingsRoute(
-    onBack: (suffixWasBlank: Boolean) -> Unit,
+    onBack: () -> Unit,
     viewModel: SettingsViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -67,16 +67,12 @@ fun SettingsRoute(
             )
         }
     }
-    val leaveSettings = {
-        onBack(viewModel.prepareToLeaveSettings())
-    }
 
-    BackHandler(onBack = leaveSettings)
+    BackHandler(onBack = onBack)
 
     SettingsScreen(
         uiState = uiState,
-        onBack = leaveSettings,
-        onOutputFilenameSuffixChanged = viewModel::onOutputFilenameSuffixChanged,
+        onBack = onBack,
         onSelectOutputFolder = { folderPicker.launch(null) },
         onResetOutputFolder = viewModel::onResetOutputFolder,
         onThemeChanged = viewModel::onThemeChanged
@@ -88,7 +84,6 @@ fun SettingsRoute(
 fun SettingsScreen(
     uiState: SettingsUiState,
     onBack: () -> Unit,
-    onOutputFilenameSuffixChanged: (String) -> Unit,
     onSelectOutputFolder: () -> Unit,
     onResetOutputFolder: () -> Unit,
     onThemeChanged: (AppTheme) -> Unit,
@@ -120,10 +115,7 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            OutputFilenameSection(
-                suffix = settings.outputFilenameSuffix,
-                onSuffixChanged = onOutputFilenameSuffixChanged
-            )
+            OutputFilenameSection()
             OutputFolderSection(
                 folderLabel = settings.outputFolderLabel,
                 isDefaultFolder = settings.outputFolderUri == null,
@@ -141,8 +133,6 @@ fun SettingsScreen(
 
 @Composable
 private fun OutputFilenameSection(
-    suffix: String,
-    onSuffixChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -156,18 +146,34 @@ private fun OutputFilenameSection(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = "Output filename suffix",
+                text = "Output filename format",
                 style = MaterialTheme.typography.titleMedium
             )
-            OutlinedTextField(
-                value = suffix,
-                onValueChange = onSuffixChanged,
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                label = { Text(text = "Suffix") }
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .selectable(
+                        selected = true,
+                        onClick = { },
+                        role = Role.RadioButton,
+                        enabled = false
+                    )
+                    .padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = true,
+                    onClick = null,
+                    enabled = false
+                )
+                Text(
+                    text = "_unlocked_DDMMYY_HHMMSS",
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
             Text(
-                text = "Example: document${suffix.ifBlank { "_unlocked" }}.pdf",
+                text = "Example: document_unlocked_250226_143005.pdf",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -273,6 +279,9 @@ private fun ThemeSection(
 private fun AppInfoSection(
     modifier: Modifier = Modifier
 ) {
+    val uriHandler = LocalUriHandler.current
+    val githubUrl = "https://github.com/OpenAppex/pdfunlocker"
+
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -300,7 +309,7 @@ private fun AppInfoSection(
             InfoRow(
                 icon = {
                     Icon(
-                        imageVector = Icons.Filled.Verified,
+                        imageVector = Icons.Filled.CheckCircle,
                         contentDescription = null
                     )
                 },
@@ -317,6 +326,12 @@ private fun AppInfoSection(
                 title = "Developer",
                 value = "Amit Lohar, using AI assistance"
             )
+            TextButton(
+                onClick = { uriHandler.openUri(githubUrl) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "View on GitHub")
+            }
         }
     }
 }
@@ -383,7 +398,6 @@ private fun SettingsScreenPreview() {
         SettingsScreen(
             uiState = SettingsUiState(settings = AppSettings()),
             onBack = {},
-            onOutputFilenameSuffixChanged = {},
             onSelectOutputFolder = {},
             onResetOutputFolder = {},
             onThemeChanged = {}

@@ -1,14 +1,10 @@
 package io.openappex.pdfunlocker.ui
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.provider.OpenableColumns
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -66,15 +62,6 @@ fun UnlockRoute(
             viewModel.onPdfSelected(uri, uri.displayName(context))
         }
     }
-    val storagePermissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            viewModel.onSaveUnlockedPdfClicked()
-        } else {
-            viewModel.onStoragePermissionDenied()
-        }
-    }
 
     UnlockScreen(
         uiState = uiState,
@@ -82,11 +69,7 @@ fun UnlockRoute(
         onPasswordChanged = viewModel::onPasswordChanged,
         onOpenSettings = onOpenSettings,
         onSaveUnlockedPdf = {
-            if (context.needsLegacyDownloadsPermission()) {
-                storagePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            } else {
-                viewModel.onSaveUnlockedPdfClicked()
-            }
+            viewModel.onSaveUnlockedPdfClicked()
         }
     )
 }
@@ -246,14 +229,6 @@ private fun Uri.displayName(context: Context): String {
         }
     }
     return lastPathSegment ?: "Selected PDF"
-}
-
-private fun Context.needsLegacyDownloadsPermission(): Boolean {
-    return Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
-        ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) != PackageManager.PERMISSION_GRANTED
 }
 
 @Preview(showBackground = true)
