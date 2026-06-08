@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Android build artifacts
+/app/release/
+/app/build/
+
+# Android Studio
+.idea/
