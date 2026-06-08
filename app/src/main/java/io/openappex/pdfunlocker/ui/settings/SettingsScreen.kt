@@ -18,6 +18,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
@@ -315,6 +316,16 @@ private fun AppInfoSection(
                 },
                 title = "State",
                 value = "Stable"
+            )
+            InfoRow(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Filled.Business,
+                        contentDescription = null
+                    )
+                },
+                title = "Organization",
+                value = "OpenAppex"
             )
             InfoRow(
                 icon = {

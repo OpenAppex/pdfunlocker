@@ -197,7 +197,7 @@ class PdfUnlockRepository(
 
     private fun unlockedFileName(sourceName: String, suffix: String): String {
         val cleanName = sourceName.substringAfterLast('/').ifBlank { "document.pdf" }
-        val timestamp = SimpleDateFormat("_unlocked_ddMMyy_HHmmss", Locale.getDefault()).format(Date())
+        val timestamp = SimpleDateFormat("'_unlocked_'ddMMyy_HHmmss", Locale.getDefault()).format(Date())
         return if (cleanName.endsWith(".pdf", ignoreCase = true)) {
             "${cleanName.dropLast(4)}$timestamp.pdf"
         } else {

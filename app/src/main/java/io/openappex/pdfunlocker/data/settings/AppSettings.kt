@@ -7,4 +7,4 @@ data class AppSettings(
     val theme: AppTheme = AppTheme.System
 )
 
-const val DefaultOutputFolderLabel = "Downloads/PdfUnlocker"
+const val DefaultOutputFolderLabel = "Download/PdfUnlocker"
