@@ -1,0 +1,12 @@
+PDF Unlocker is a free and open-source Android application that removes password protection from PDF files you are authorized to access.
+
+Features:
+
+• Unlock password-protected PDFs
+• Offline processing
+• No account required
+• Privacy friendly
+• Open source
+• Material Design interface
+
+All PDF processing happens locally on your device. No files are uploaded to any server.

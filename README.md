@@ -15,16 +15,13 @@ A simple, fast, and privacy-focused Android app for removing passwords from PDF 
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/Home.jpg" width="250">
-  <img src="screenshots/Settings.jpg" width="250">
-  <img src="screenshots/Unlock.jpg" width="250">
-  <img src="screenshots/Unlock%20Success.jpg" width="250">
-  <img src="screenshots/Unlock%20Error.jpg" width="250">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Home.jpg" width="250">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Settings.jpg" width="250">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Unlock.jpg" width="250">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Unlock%20Success.jpg" width="250">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Unlock%20Error.jpg" width="250">
 </p>
 
-## Download
-
-Download the latest APK from the GitHub Releases page.
 
 ## How It Works
 
@@ -34,15 +31,6 @@ Download the latest APK from the GitHub Releases page.
 4. Save the unlocked copy.
 
 The original PDF is never modified.
-
-## Privacy
-
-PDF Unlocker works entirely on your device.
-
-* No data is uploaded.
-* No cloud processing.
-* No analytics.
-* No tracking.
 
 ## Requirements
 
@@ -58,6 +46,29 @@ PDF Unlocker works entirely on your device.
 ## License
 
 Licensed under the Apache License 2.0. See the LICENSE file for details.
+
+## Privacy
+
+PDF Unlocker does not collect, store, transmit, or share any personal data.
+
+All PDF processing is performed locally on your device. No files are uploaded to any server, and no account or internet connection is required to use the app.
+
+PDF Unlocker works entirely on your device.
+
+* No data is uploaded.
+* No cloud processing.
+* No analytics.
+* No tracking.
+
+## Assets & Attribution
+
+The application icon was created with the assistance of AI image generation tools and may contain similarities to other generated artwork. It is used in good faith for this open-source project.
+
+If you believe any asset used in this project infringes upon your rights, please open an issue on GitHub or contact the maintainer, and the matter will be reviewed promptly.
+
+## Download
+
+Download the latest APK from the GitHub Releases page.
 
 ## Project
 
