@@ -14,7 +14,13 @@ A simple, fast, and privacy-focused Android app for removing passwords from PDF 
 
 ## Screenshots
 
-*Add screenshots here.*
+<p align="center">
+  <img src="screenshots/Home.jpg" width="250">
+  <img src="screenshots/Settings.jpg" width="250">
+  <img src="screenshots/Unlock.jpg" width="250">
+  <img src="screenshots/Unlock%20Success.jpg" width="250">
+  <img src="screenshots/Unlock%20Error.jpg" width="250">
+</p>
 
 ## Download
 
